@@ -1,0 +1,7 @@
+spring:
+  application:
+    name:messageQueue
+
+rocketmq:
+  name-server: localhost:9876
+
