@@ -17,8 +17,7 @@ import java.io.UnsupportedEncodingException;
 
 @Component
 public class MQUtil {
-    @Resource
-    private RocketMQTemplate rocketMQTemplate;
+
 
     @Autowired
     private SnowFlakeIdWorker snowFlakeIdWorker;

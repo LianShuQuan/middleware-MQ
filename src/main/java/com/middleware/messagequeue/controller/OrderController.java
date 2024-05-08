@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class OrderController {
 
-    @Autowired
-    private MQUtil mqUtil;
 
     @Autowired
     private OrderService service;
