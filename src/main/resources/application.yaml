@@ -2,6 +2,39 @@ spring:
   application:
     name:messageQueue
 
+  data:
+    redis:
+      # 连接地址
+      host: "localhost"
+      # 端口
+      port: 6379
+      # 数据库
+      database: 0
+      # 用户名，如果有
+      # username:
+      # 密码，如果有
+      # password:
+      # 连接超时
+      connect-timeout: 5s
+      # 读超时
+      timeout: 5s
+
+      # Lettuce 客户端的配置
+      lettuce:
+        # 连接池配置
+        pool:
+          # 最小空闲连接
+          min-idle: 0
+          # 最大空闲连接
+          max-idle: 8
+          # 最大活跃连接
+          max-active: 8
+          # 从连接池获取连接 最大超时时间，小于等于0则表示不会超时
+          max-wait: -1ms
 rocketmq:
   name-server: localhost:9876
+  consumer:
+    group: order
+
+
 
