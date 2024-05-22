@@ -33,8 +33,7 @@ spring:
           max-wait: -1ms
 rocketmq:
   name-server: localhost:9876
-  consumer:
-    group: order
+
 
 
 

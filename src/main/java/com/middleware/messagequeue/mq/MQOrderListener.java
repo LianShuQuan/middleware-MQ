@@ -1,20 +1,21 @@
 package com.middleware.messagequeue.mq;
 
-import com.middleware.messagequeue.util.CtxAware;
+import com.middleware.messagequeue.util.*;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Service
+@Component
 @RocketMQMessageListener(topic = TopicDefinition.ROCKET_MQ_IDEMPOTENT_TOPIC,consumerGroup = "order")
 public class MQOrderListener implements RocketMQListener<MessageExt> {
 
     @Override
     public void onMessage(MessageExt message) {
         System.out.println("消费者收到消息");
-        Idempotent idempotent = CtxAware.getApplicationContext().getBean(Idempotent.class);
+        Idempotent idempotent = SpringContextUtil.getBean(Idempotent.class);
         // 获取消息ID
         String messageId = message.getMsgId();
 

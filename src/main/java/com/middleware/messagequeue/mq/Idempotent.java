@@ -12,6 +12,8 @@ public class Idempotent {
     StringRedisTemplate stringRedisTemplate;
     public boolean consumed(String messageId)
     {
+        if(!this.stringRedisTemplate.hasKey(messageId))
+            return false;
         return this.stringRedisTemplate.opsForValue().get(messageId).equals("true");
     }
 

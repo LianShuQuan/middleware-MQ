@@ -1,7 +1,7 @@
 package com.middleware.messagequeue.util;
 
 import com.middleware.messagequeue.util.snowflake.SnowFlakeIdWorker;
-import jakarta.annotation.Resource;
+
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.client.producer.SendStatus;
