@@ -1,0 +1,76 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+spring:
+  rabbitmq:
+    host: rabbitmq-host
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+  # 路径记得配正确，否则可能报 Error creating bean with name xxx 错误
+  data:
+    mongodb:
+      host: mongodb
+      port: 27017
+      authentication-database: admin
+      database: oomall
+      username: demouser
+      password: 123456
+#      retryWrites: false
+    redis:
+      repositories:
+        enabled: false
+      host: redis
+      port: 6379
+      database: 0
+      password: 123456
+  jackson:
+    time-zone: GMT+8
+
+# 配置rocketmq
+rocketmq:
+  # 指定namesrv地址
+  name-server: rocketmq-namesrv:9876
+  producer:
+    #生产者group名称
+    group: prodorder_producer
+    #一次发送多少数量消息
+    max-message-size: 4096
+    #发送消息超时时间,默认3000
+    send-message-timeout: 3000
+    #发送消息失败重试次数，默认2
+    retry-times-when-send-async-failed: 2
+
+server:
+  port: 8083
+  tomcat:
+    threads:
+      #最大工作线程数
+      max: 200
+      #最小工作线程数
+      min-spare: 100
+    uri-encoding: UTF-8
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+oomall:
+  core:
+    page-size:
+      max: 1000
+      default: 10
+  order:
+    server-num: 0
+    order-check-top:
+      # 固定的延时等级 "1s 5s 10s 30s 1m 2m 3m 4m 5m 6m 7m 8m 9m 10m 20m 30m 1h 2h"
+      delay-level: 3
+      #超时时间（秒）
+      timeout: 10
+  data-center: 1
+  redis:
+    timeout: 3600
