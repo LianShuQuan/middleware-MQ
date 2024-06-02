@@ -14,13 +14,13 @@ public class MQOrderListener implements RocketMQListener<MessageExt> {
 
     @Override
     public void onMessage(MessageExt message) {
-        System.out.println("消费者收到消息");
+        System.out.println("消费者收到消息,keys:"+message.getKeys());
         Idempotent idempotent = SpringContextUtil.getBean(Idempotent.class);
-        // 获取消息ID
-        String messageId = message.getMsgId();
+        // 获取消息key
+        String keys = message.getKeys();
 
         // 判断消息是否已处理过
-        if (idempotent.consumed(messageId)) {
+        if (idempotent.consumed(keys)) {
             // 如果已处理过，则直接返回成功
             System.out.println("already consumed");
             return;
@@ -31,7 +31,7 @@ public class MQOrderListener implements RocketMQListener<MessageExt> {
 
         // 根据处理结果更新记录
         if (success) {
-            idempotent.addConsumed(messageId);
+            idempotent.addConsumed(keys);
             System.out.println("consumed successfully");
         }else{
             System.out.println("consume fail");
