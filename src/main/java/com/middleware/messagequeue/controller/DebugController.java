@@ -12,6 +12,8 @@ import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.client.producer.SendStatus;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.remoting.common.RemotingHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +27,7 @@ public class DebugController {
 
     @Autowired
     DefaultMQProducer rocketMQProducer;
-
+    private final Logger logger = LoggerFactory.getLogger(DebugController.class);
 
     @GetMapping("/debug")
     public ResponseEntity<String> createOrder() throws Exception {
@@ -52,9 +54,9 @@ public class DebugController {
 
         // 根据发送结果判断是否发送成功
         if (sendResult.getSendStatus() == SendStatus.SEND_OK) {
-            System.out.println("消息发送成功");
+            logger.info("消息发送成功");
         } else {
-            System.out.println("消息发送失败");
+            logger.info("消息发送失败");
         }
 
         return ResponseEntity.ok("ok");
