@@ -4,7 +4,6 @@ import com.middleware.messagequeue.mq.Idempotent;
 import com.middleware.messagequeue.mq.TopicDefinition;
 import com.middleware.messagequeue.util.snowflake.Common;
 import com.middleware.messagequeue.util.snowflake.SnowFlakeIdWorker;
-import jakarta.annotation.PostConstruct;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
