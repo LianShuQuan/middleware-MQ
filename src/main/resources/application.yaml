@@ -4,8 +4,7 @@ spring:
   application:
     name:messageQueue
   kafka:
-    host: "localhost"
-    port: 9092
+    bootstrap-servers: localhost:9092
     producer:
       acks: 1
       # 设置大于0的值将使客户端重新发送任何数据。
@@ -23,7 +22,7 @@ spring:
   data:
     redis:
       # 连接地址
-      host: "localhost"
+      host: localhost
       # 端口
       port: 6379
       # 数据库

@@ -10,11 +10,14 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
 public class IdempotentAOP {
+
     private final Logger logger = LoggerFactory.getLogger(IdempotentAOP.class);
 
     @Pointcut("@annotation(com.middleware.messagequeue.aop.OnMsgIdept)")

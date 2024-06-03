@@ -5,6 +5,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class Idempotent {
@@ -31,5 +32,8 @@ public class Idempotent {
     }
     public void deleteValue(String id) {
         stringRedisTemplate.delete(id);
+    }
+    public void expire(String key,long timeout){
+        stringRedisTemplate.expire(key,timeout, TimeUnit.SECONDS);
     }
 }

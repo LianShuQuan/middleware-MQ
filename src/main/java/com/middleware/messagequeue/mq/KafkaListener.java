@@ -1,8 +1,11 @@
 package com.middleware.messagequeue.mq;
 
+import com.middleware.messagequeue.aop.IdempotentKafka;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 import static java.lang.Thread.sleep;
 
@@ -115,6 +118,22 @@ public class KafkaListener {
         result[1]=id.substring(length-2,length-1);
         result[2]=id.substring(0,length-2);
         return result;
+    }
+    @org.springframework.kafka.annotation.KafkaListener(topics = TopicDefinition.KAFKA_MQ_IDEMPOTENT_TOPIC,groupId = "2")
+    @IdempotentKafka
+    public void decreaseIn(ConsumerRecord<String,String > consumerRecord){
+        try {
+            Optional<String> key = Optional.ofNullable(consumerRecord.key());
+            Optional<String> value = Optional.ofNullable(consumerRecord.value());
+            if(key.isPresent()&&value.isPresent()){
+                System.out.println("consumer finished,orderId = " + key.get());
+                System.out.println("consumer finished,onsaledId =" + key.get().split(":")[0]);
+                System.out.println("consumer finished,quantity =" + value.get().split(":")[0]);
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
 

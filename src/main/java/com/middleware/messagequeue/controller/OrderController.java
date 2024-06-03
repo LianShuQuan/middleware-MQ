@@ -39,4 +39,9 @@ public class OrderController {
         service.createOrderKafka(orderItems,coupons,orderVo.getPoints());
         return ResponseEntity.ok("ok");
     }
+    @PostMapping("/createOrderKafka/idempotent")
+    public ResponseEntity<String> createOrderKafka() throws Exception {
+        service.createOrderKafkaIdempotent();
+        return ResponseEntity.ok("ok");
+    }
 }

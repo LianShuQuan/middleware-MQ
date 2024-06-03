@@ -7,11 +7,13 @@ import com.middleware.messagequeue.util.KafkaUtil;
 import com.middleware.messagequeue.util.MQUtil;
 import com.middleware.messagequeue.util.snowflake.SnowFlakeIdWorker;
 import io.netty.channel.epoll.EpollMode;
+import org.apache.kafka.common.protocol.types.Field;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class OrderService {
@@ -35,5 +37,20 @@ public class OrderService {
         kafkaParameters.add(new KafkaParameter("point",orderId, point.toString()));
         kafkaUtil.sendMessages(kafkaParameters);
         System.out.println("createOrder in service");
+    }
+    public void createOrderKafkaIdempotent(){
+        String orderId=String.valueOf(snowFlakeIdWorker.nextId());
+        System.out.println(orderId);
+        for (int i=0;i<10;i++){
+            String onsaleId=String.valueOf(snowFlakeIdWorker.nextId());
+            int quantity=new Random().nextInt();
+            kafkaUtil.send(orderId+":"+onsaleId,String.valueOf(quantity),TopicDefinition.KAFKA_MQ_IDEMPOTENT_TOPIC);
+            System.out.println("kafka发送消息key:"+orderId+":"+onsaleId);
+            System.out.println("kafka发送消息value:"+quantity);
+            /**
+             * 发送重复消息
+             */
+            kafkaUtil.send(orderId+":"+onsaleId,String.valueOf(quantity),TopicDefinition.KAFKA_MQ_IDEMPOTENT_TOPIC);
+        }
     }
 }
